@@ -235,11 +235,14 @@
             this.canvas = document.getElementById("myCanvas");
             this.ctx = this.canvas.getContext("2d");
             this.balls = []
+            this.blocks = []
             this.ball = new Ball(this.canvas.width/2, this.canvas.height-30, 10)
             this.balls.push(this.ball)
             this.paddle = new Paddle((this.canvas.width-75)/2, 10, 75)
             this.brick = new Brick(3,5)
-            this.block = new Block('blue')
+            let blueBlock = new Block('blue')
+            let orangeBlock = new Block('orange')
+            this.blocks.push(blueBlock, orangeBlock)
             this.inputProcessor = new InputProcessor()
             this.inputProcessor.addEvent();
             this.lives = 3;
@@ -253,7 +256,7 @@
             this.balls.forEach(ball => ball.draw())
             this.paddle.draw();
             this.brick.draw();
-            this.block.draw();
+            this.blocks.forEach(block => block.draw())
             this.balls.forEach(ball => ball.move())
             this.collisionDetection();
             this.updateGame();
@@ -321,20 +324,22 @@
                     ball.dy = -ball.dy;
                 }
 
-                // when the first ball hit special block
-                if (!this.firstBallHitBlock && this.balls.indexOf(ball)==0 && this.block.hitBlock(ball.posX, ball.posY)){
-                    this.firstBallHitBlock = !this.firstBallHitBlock; // change status
-                    for(let i=0; i<2; i++){
-                        let ball = new Ball(this.canvas.width/2, this.canvas.height-30, 10)
-                        this.balls.push(ball)
+                this.blocks.forEach((block) => {
+                    // when the first ball hit special block
+                    if (!this.firstBallHitBlock && this.balls.indexOf(ball)==0 && block.hitBlock(ball.posX, ball.posY)){
+                        this.firstBallHitBlock = !this.firstBallHitBlock; // change status
+                        for(let i=0; i<2; i++){
+                            let ball = new Ball(this.canvas.width/2, this.canvas.height-30, 10)
+                            this.balls.push(ball)
+                        }
                     }
-                }
 
-                // when balls hit the special block (change size paddle)
-                if (this.block.hitBlock(ball.posX, ball.posY)){
-                    this.paddle.width++;
-                    this.paddle.height++;
-                }
+                    // when balls hit the special block (change size paddle)
+                    if (block.hitBlock(ball.posX, ball.posY)){
+                        this.paddle.width++;
+                        this.paddle.height++;
+                    }
+                })
             })
         }
 
