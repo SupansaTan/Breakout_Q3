@@ -165,6 +165,29 @@
             return false;
         }
     }
+
+    class Block {
+        constructor(posX,posY, color){
+            this.canvas = document.getElementById("myCanvas");
+            this.ctx = this.canvas.getContext("2d");
+            this.posX = posX;
+            this.posY = posY;
+            this.width = 60;
+            this.color = color;
+        }
+
+        draw(){
+            this.ctx.beginPath();
+            this.ctx.rect(this.posX, this.posY, this.width, this.width);
+            this.ctx.fillStyle = this.color;
+            this.ctx.fill();
+            this.ctx.closePath();
+        }
+
+        hitBlock(posX, posY){
+            
+        }
+    }
     
     class InputProcessor
     {
@@ -210,6 +233,7 @@
             this.ball = new Ball(this.canvas.width/2, this.canvas.height-30, 10)
             this.paddle = new Paddle((this.canvas.width-75)/2, 10, 75)
             this.brick = new Brick(3,5)
+            this.block = new Block(this.canvas.width/2, (this.canvas.height/2)+30, 'blue')
             this.inputProcessor = new InputProcessor()
             this.inputProcessor.addEvent();
             this.lives = 3;
@@ -221,6 +245,7 @@
             this.ball.draw();
             this.paddle.draw();
             this.brick.draw();
+            this.block.draw();
             this.ball.move();
             this.collisionDetection();
             this.updateGame();
