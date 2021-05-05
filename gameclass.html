@@ -28,7 +28,6 @@
 
         draw() //วาดบอล
         {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.ctx.beginPath();
             this.ctx.arc(this.posX ,this.posY,this.width,0,Math.PI*2);
             this.ctx.fillStyle = "#0095DD";
@@ -185,7 +184,12 @@
         }
 
         hitBlock(posX, posY){
-            
+            if (posX >= this.posX && posX <= this.posX+this.width && 
+            posY >= this.posY && posY <= this.posY+this.width){
+                // hit the special block
+                return true;
+            }
+            return false;
         }
     }
     
@@ -244,12 +248,13 @@
 
         draw() 
         {
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.balls.forEach(ball => ball.draw())
             //this.ball.draw();
             this.paddle.draw();
             this.brick.draw();
             this.block.draw();
-            this.ball.move();
+            this.balls.forEach(ball => ball.move())
             this.collisionDetection();
             this.updateGame();
             requestAnimationFrame(()=>this.draw());
@@ -314,6 +319,14 @@
                 if (ball.posY + ball.dy < ball.width) 
                 {
                     ball.dy = -ball.dy;
+                }
+
+                // when the ball hit special block
+                if (this.balls.indexOf(ball)==0 && this.block.hitBlock(ball.posX, ball.posY)){
+                    for(let i=0; i<2; i++){
+                        let ball = new Ball(this.canvas.width/2, this.canvas.height-30, 10)
+                        this.balls.push(ball)
+                    }
                 }
             })
         }
