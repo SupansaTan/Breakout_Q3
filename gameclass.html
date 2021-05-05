@@ -336,8 +336,16 @@
 
                     // when balls hit the special block (change size paddle)
                     if (block.hitBlock(ball.posX, ball.posY)){
-                        this.paddle.width++;
-                        this.paddle.height++;
+                        if(block.color == 'blue'){
+                            // big size
+                            this.paddle.width++;
+                            this.paddle.height++;
+                        }
+                        else{
+                            // small size
+                            this.paddle.width--;
+                            this.paddle.height--;
+                        }
                     }
                 })
             })
