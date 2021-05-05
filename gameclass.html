@@ -244,13 +244,13 @@
             this.inputProcessor.addEvent();
             this.lives = 3;
             this.score = 0;
+            this.firstBallHitBlock = false;
         }
 
         draw() 
         {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.balls.forEach(ball => ball.draw())
-            //this.ball.draw();
             this.paddle.draw();
             this.brick.draw();
             this.block.draw();
@@ -321,8 +321,9 @@
                     ball.dy = -ball.dy;
                 }
 
-                // when the ball hit special block
-                if (this.balls.indexOf(ball)==0 && this.block.hitBlock(ball.posX, ball.posY)){
+                // when the first ball hit special block
+                if (!this.firstBallHitBlock && this.balls.indexOf(ball)==0 && this.block.hitBlock(ball.posX, ball.posY)){
+                    this.firstBallHitBlock = !this.firstBallHitBlock; // change status
                     for(let i=0; i<2; i++){
                         let ball = new Ball(this.canvas.width/2, this.canvas.height-30, 10)
                         this.balls.push(ball)
