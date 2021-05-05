@@ -166,12 +166,12 @@
     }
 
     class Block {
-        constructor(posX,posY, color){
+        constructor(color){
             this.canvas = document.getElementById("myCanvas");
             this.ctx = this.canvas.getContext("2d");
-            this.posX = posX;
-            this.posY = posY;
             this.width = 60;
+            this.posX = Math.floor(Math.random()*this.canvas.width-this.width-5)+this.width;
+            this.posY = Math.floor(Math.random()*this.canvas.height-this.width-5)+this.width;
             this.color = color;
         }
 
@@ -239,7 +239,7 @@
             this.balls.push(this.ball)
             this.paddle = new Paddle((this.canvas.width-75)/2, 10, 75)
             this.brick = new Brick(3,5)
-            this.block = new Block(this.canvas.width/2, (this.canvas.height/2)+30, 'blue')
+            this.block = new Block('blue')
             this.inputProcessor = new InputProcessor()
             this.inputProcessor.addEvent();
             this.lives = 3;
