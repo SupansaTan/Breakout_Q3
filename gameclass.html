@@ -329,6 +329,12 @@
                         this.balls.push(ball)
                     }
                 }
+
+                // when balls hit the special block (change size paddle)
+                if (this.block.hitBlock(ball.posX, ball.posY)){
+                    this.paddle.width++;
+                    this.paddle.height++;
+                }
             })
         }
 
